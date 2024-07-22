@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-This is a Deletion-resilient hypermedia pagination
+Deletion-resilient hypermedia pagination
 """
 
 import csv
@@ -9,7 +9,7 @@ from typing import List, Dict
 
 
 class Server:
-    """A class Server that paginates a database of popular baby names.
+    """Server class to paginate a database of popular baby names.
     """
     DATA_FILE = "Popular_Baby_Names.csv"
 
@@ -29,46 +29,44 @@ class Server:
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
-        """Dataset indexed by sorting the position, starting at 0
+        """Dataset indexed by sorting position, starting at 0
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
             truncated_dataset = dataset[:1000]
             self.__indexed_dataset = {
-                i: dataset[i] for i in range(len(dataset))
+                x: dataset[x] for x in range(len(dataset))
             }
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
+        """Return a dictionary containing the following key-value pairs:
+        index: the current start index of the return page. That is the index
+               of the first item in the current page. For example if
+               requesting page 3 with page_size 20, and no data was removed
+               from the dataset, the current index should be 60.
+        next_index: the next index to query with. That should be the index of
+                    the first item after the last item on the current page.
+        page_size: the current page size
+        data: the actual page of the dataset
         """
-        A fuynction that Takes 2 integer arguments and returns a dictionary with
-        the following key-value pairs:
-            index: index of the first item in the current page
-            next_index: index of the first item in the next page
-            page_size: the current page size
-            data: actual page of the dataset
-        Args:
-            index(int): first required index
-            page_size(int): required number of records per page
-        """
-        dataset = self.indexed_dataset()
-        data_length = len(dataset)
-        assert 0 <= index < data_length
-        response = {}
-        data = []
-        response['index'] = index
-        for x in range(page_size):
-            while True:
-                curr = dataset.get(index)
-                index += 1
-                if curr is not None:
-                    break
-            data.append(curr)
+        assert isinstance(index, int)
+        assert isinstance(page_size, int)
+        assert 0 <= index < len(self.dataset())
+        assert page_size <= len(self.dataset())
 
-        response['data'] = data
-        response['page_size'] = len(data)
-        if dataset.get(index):
-            response['next_index'] = index
-        else:
-            response['next_index'] = None
-        return response
+        data = []
+        next_index = index + page_size
+        for x in range(index, next_index):
+            if x not in self.indexed_dataset():
+                next_index += 1
+                next_index += 1
+            else:
+                data.append(self.indexed_dataset()[x])
+
+        return {
+            'index': index,
+            'next_index': next_index,
+            'page_size': page_size,
+            'data': data
+        }

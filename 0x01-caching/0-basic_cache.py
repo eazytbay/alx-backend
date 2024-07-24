@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" To create a BaseCaching module
+""" create BaseCaching module
 """
 from base_caching import BaseCaching
 
@@ -8,13 +8,13 @@ class BasicCache(BaseCaching):
     """
     Definition of  a class for caching information in key-value pairs
     Methods:
-        put(key, item) - this stores a key-value pair
-        get(key) - this retrieves the value associated with a key
+        put(key, item) - store a key-value pair
+        get(key) - retrieve the value associated with a key
     """
 
     def __init__(self):
         """
-        Initialization the class using the parent class __init__ method
+        Initialization of  the class using the parent class __init__ method
         """
         BaseCaching.__init__(self)
 
@@ -32,8 +32,8 @@ class BasicCache(BaseCaching):
 
     def get(self, key):
         """
-        Returns the value linked to key.
-        If key is None or does not exist, return None or do nothing
+        Return value linked to key.
+        If key is None or doesn't exist, return None
         """
         if key is not None and key in self.cache_data.keys():
             return self.cache_data[key]

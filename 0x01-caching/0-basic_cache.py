@@ -1,29 +1,40 @@
 #!/usr/bin/env python3
-"""create BaseCaching Module
+""" Create BaseCaching module
 """
 from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
-    """A caching system that inherits from BaseCaching and does not have a
-    limit on the number of items it can store.
     """
-    def put(self, key, item):
-        """Assigns the item value to the key in the dictionary self.cache_data.
-        If key or item is None, this method should not do anything.
+    Definition of a class for caching information in key-value pairs
+    Methods:
+        put(key, item) - store a key-value pair
+        get(key) - retrieve the value associated with a key
+    """
 
+    def __init__(self):
+        """
+        Initialization the class using the parent class __init__ method
+        """
+        BaseCaching.__init__(self)
+
+    def put(self, key, item):
+        """
+        Stores a key-value pair
         Args:
-            key (any): param1.
-            item (any): param2.
+            Key
+            Item
         """
         if key is None or item is None:
-            return
-        self.cache_data[key] = item
+            pass
+        else:
+            self.cache_data[key] = item
 
     def get(self, key):
-        """Returns the value in self.cache_data linked to key.
-        If key is None or if the key doesn't exist in self.cache_data,
-        return None.
         """
-        return self.cache_data.get(key, None) 
-
+        Returns a value linked to key.
+        If key is None or doesn't exist, return None
+        """
+        if key is not None and key in self.cache_data.keys():
+            return self.cache_data[key]
+        return None

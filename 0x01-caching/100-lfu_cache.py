@@ -30,7 +30,7 @@ class LFUCache(BaseCaching):
                 lfu_keys = []
                 for y, z in self.frequency.items():
                     if z == lfu:
-                        lfu_keys.append(k)
+                        lfu_keys.append(y)
                 if len(lfu_keys) > 1:
                     lru_lfu = {}
                     for y in lfu_keys:

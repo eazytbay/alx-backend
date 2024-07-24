@@ -1,31 +1,29 @@
-class BaseCaching:
-    """Base class for caching systems"""
-    cache_data = {}  # Shared dictionary for storing cached data
+#!/usr/bin/env python3
+"""create BaseCaching Module
+"""
+from base_caching import BaseCaching
+
 
 class BasicCache(BaseCaching):
-    """Basic caching system with no limit"""
-
+    """A caching system that inherits from BaseCaching and does not have a
+    limit on the number of items it can store.
+    """
     def put(self, key, item):
-        """
-        Stores an item value in the cache for a given key.
+        """Assigns the item value to the key in the dictionary self.cache_data.
+        If key or item is None, this method should not do anything.
 
         Args:
-            key (str): The key to associate the item with.
-            item (object): The item to store in the cache.
+            key (any): param1.
+            item (any): param2.
         """
-        if key is not None and item is not None:
-            self.cache_data[key] = item
+        if key is None or item is None:
+            return
+        self.cache_data[key] = item
 
     def get(self, key):
+        """Returns the value in self.cache_data linked to key.
+        If key is None or if the key doesn't exist in self.cache_data,
+        return None.
         """
-        Retrieves the item value associated with a given key from the cache.
-
-        Args:
-            key (str): The key to search for.
-
-        Returns:
-            object: The value associated with the key, or None if not found.
-        """
-        if key is not None:
-            return self.cache_data.get(key) 
+        return self.cache_data.get(key, None) 
 

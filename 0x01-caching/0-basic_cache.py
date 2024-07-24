@@ -1,24 +1,40 @@
-"""To create a basic dictionary"""
-
-
+#!/usr/bin/env python3
+""" To create a BaseCaching module
+"""
 from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
-    """A class implementing a simple dictionary"""
+    """
+    Definition of  a class for caching information in key-value pairs
+    Methods:
+        put(key, item) - this stores a key-value pair
+        get(key) - this retrieves the value associated with a key
+    """
 
     def __init__(self):
-        """The constructor method"""
-        super().__init__()
+        """
+        Initialization the class using the parent class __init__ method
+        """
+        BaseCaching.__init__(self)
 
     def put(self, key, item):
-        """a method that add items to the dictionary"""
-        if key and item:
+        """
+        Stores a key-value pair
+        Args:
+            Key
+            Item
+        """
+        if key is None or item is None:
+            pass
+        else:
             self.cache_data[key] = item
 
     def get(self, key):
-        """returns the value of the data linked to the key"""
-        if key:
-            if key in self.cache_data.keys():
-                return self.cache_data[key]
+        """
+        Returns the value linked to key.
+        If key is None or does not exist, return None or do nothing
+        """
+        if key is not None and key in self.cache_data.keys():
+            return self.cache_data[key]
         return None
